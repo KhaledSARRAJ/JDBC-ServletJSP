@@ -1,0 +1,50 @@
+package fr.eql.ai108.jdbc.demo;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
+import javax.sql.DataSource;
+
+public class SelectWithParameter {
+
+	public static void main(String[] args) {
+
+		DataSource ds = new CatDataSource();
+		Connection cnx  =null;
+		String expectedPartialName = "li";
+		try {
+			cnx = ds.getConnection();
+			String req ="SELECT id, name, race, birth FROM cat WHERE name LIKE ? ";
+					
+			
+			//lE PreparedStatement va encapsuler la reqête avant la transmission
+			//du parametre
+			PreparedStatement pstmt = cnx.prepareStatement(req);
+			pstmt.setString(1, "%" + expectedPartialName  +"%");
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				String name = rs.getString("name");
+				String race = rs.getString("race");
+				//gerer les dates
+				LocalDate birth = rs.getDate("birth").toLocalDate();
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append("id: ").append(id.toString()).append("\tname:").append(name).append("\trace: ").append(race).append("\tbirth: ").append(birth);
+				System.out.println(sb);
+			
+			}
+					
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
