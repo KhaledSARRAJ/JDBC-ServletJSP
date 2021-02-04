@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-
 public class PremierAppel {
 
 	public static void main(String[] args) {
@@ -18,7 +16,7 @@ public class PremierAppel {
 		String username ="root";
 		//Password de notre bdd
 		String password = "khaled";
-		//URL de notre BDD avec quelques parametres:  adresse//port //nom base // time zone pour pas avoir un décalage horraire//parametres de securité
+		//URL de notre BDD avec quelques parametres:  adresse:port //nom base // time zone pour pas avoir un décalage horraire//parametres de securité
 		
 		String url = "jdbc:mysql://127.0.0.1:3306/cat_db?"
 		+"serverTimezone=Europe/Paris&verifyServerCertificate=false"
@@ -39,7 +37,7 @@ public class PremierAppel {
 			Statement stmt = cnx.createStatement();
 			//On execute notre statement en lui transmettant la requête (encapsuler notre requette)
 			
-			int success = stmt.executeUpdate(req);
+			int success = stmt.executeUpdate(req); //si c'est bon success va avoir 1
 			
 			System.out.println(success ==1 ? "Insert ok": "Bah ca marche pas!");
 		} catch (ClassNotFoundException | SQLException e) {
